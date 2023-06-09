@@ -9,25 +9,13 @@ import {
 } from "react-native";
 import background from "../images/background.jpg";
 
-export function RegistrationScreen() {
+export function LoginScreen() {
   const [showPassword, setShowPassword] = useState(true);
   return (
     <ImageBackground source={background} style={styles.backgroundStyle}>
       <View style={styles.containerForm}>
-        <View style={styles.containerAvatar}>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.buttonAvatar}
-            onPress={() => console.log("test")}
-          >
-            <Text style={{ color: "#FF6C00" }}>+</Text>
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.title}>Реєстрація</Text>
+        <Text style={styles.title}>Увійти</Text>
         <View style={styles.form}>
-          <View>
-            <TextInput style={styles.input} placeholder="Логін" />
-          </View>
           <View>
             <TextInput
               keyboardType="email-address"
@@ -53,10 +41,10 @@ export function RegistrationScreen() {
             onPress={() => console.log("test")}
             style={styles.buttonSubmit}
           >
-            <Text style={styles.textBtnSubmit}>Зареєстуватися</Text>
+            <Text style={styles.textBtnSubmit}>Увійти</Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.textLink}>Вже є акаунт? Увійти</Text>
+        <Text style={styles.textLink}>Немає акаунту? Зареєструватися</Text>
       </View>
     </ImageBackground>
   );
@@ -69,35 +57,14 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   containerForm: {
-    paddingTop: 92,
-    paddingBottom: 79,
+    paddingTop: 32,
+    paddingBottom: 145,
     backgroundColor: "#fff",
     width: "100%",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     alignItems: "center",
     position: "relative",
-  },
-  containerAvatar: {
-    width: 120,
-    height: 120,
-    top: -60,
-    backgroundColor: "#F6F6F6",
-    borderRadius: 16,
-    position: "absolute",
-  },
-  buttonAvatar: {
-    position: "absolute",
-    bottom: 14,
-    right: -12.5,
-    width: 25,
-    height: 25,
-    borderRadius: "50%",
-    borderWidth: 1,
-    borderColor: "#FF6C00",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
   },
   title: {
     fontFamily: "Roboto",
