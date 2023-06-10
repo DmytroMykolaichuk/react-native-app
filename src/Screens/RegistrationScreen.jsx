@@ -6,59 +6,146 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Platform,
+  Keyboard,
 } from "react-native";
 import background from "../images/background.jpg";
 
 export function RegistrationScreen() {
   const [showPassword, setShowPassword] = useState(true);
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [mail, setMail] = useState("");
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const [inputEmailInFocus, setInputEmailInFocus] = useState(false);
+  const [inputPasswordInFocus, setInputPasswordInFocus] = useState(false);
+  const [inputLoginInFocus, setInputLoginInFocus] = useState(false);
+
+  function handlerSubmit() {
+    if (login.trim() === "" || mail.trim() === "" || password.trim() === "") {
+      return console.log("Заповніть всі поля");
+    }
+    console.log(`Login: ${login}, Mail: ${mail}, Password: ${password}`);
+    setPassword("");
+    setLogin("");
+    setMail("");
+    Keyboard.dismiss();
+    setIsShowKeyboard(false);
+  }
+
+  function handleClick() {
+    Keyboard.dismiss();
+    setIsShowKeyboard(false);
+  }
+  function onFocusEmail() {
+    setIsShowKeyboard(true);
+    setInputEmailInFocus(true);
+  }
+
+  function onFocusPassword() {
+    setIsShowKeyboard(true);
+    setInputPasswordInFocus(true);
+  }
+
+  function onFocusLogin() {
+    setIsShowKeyboard(true);
+    setInputLoginInFocus(true);
+  }
   return (
-    <ImageBackground source={background} style={styles.backgroundStyle}>
-      <View style={styles.containerForm}>
-        <View style={styles.containerAvatar}>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            style={styles.buttonAvatar}
-            onPress={() => console.log("test")}
+    <TouchableWithoutFeedback onPress={handleClick}>
+      <ImageBackground source={background} style={styles.backgroundStyle}>
+        {/* <TouchableWithoutFeedback onPress={handleClick}> */}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.activeKeyboard}
+        >
+          <View
+            style={{
+              ...styles.containerForm,
+              paddingBottom: isShowKeyboard ? 16 : 79,
+            }}
           >
-            <Text style={{ color: "#FF6C00" }}>+</Text>
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.title}>Реєстрація</Text>
-        <View style={styles.form}>
-          <View>
-            <TextInput style={styles.input} placeholder="Логін" />
-          </View>
-          <View>
-            <TextInput
-              keyboardType="email-address"
-              style={styles.input}
-              placeholder="Адреса електронної пошти"
-            />
-          </View>
-          <View style={styles.label}>
-            <TextInput
-              style={styles.input}
-              placeholder="Пароль"
-              secureTextEntry={showPassword}
-            />
-            <TouchableOpacity
-              style={styles.containerShowPassword}
-              onPress={() => setShowPassword((prev) => !prev)}
+            <View style={styles.containerAvatar}>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                style={styles.buttonAvatar}
+                onPress={() => console.log("test")}
+              >
+                <Text style={{ color: "#FF6C00" }}>+</Text>
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.title}>Реєстрація</Text>
+            <View
+              style={{ ...styles.form, marginBottom: isShowKeyboard ? 0 : 16 }}
             >
-              <Text style={styles.textShowPassword}>Показати</Text>
-            </TouchableOpacity>
+              <View>
+                <TextInput
+                  placeholder="Логін"
+                  value={login}
+                  onFocus={onFocusLogin}
+                  onBlur={() => setInputLoginInFocus(false)}
+                  onChangeText={setLogin}
+                  style={[
+                    styles.input,
+                    inputLoginInFocus && styles.inputActive,
+                  ]}
+                />
+              </View>
+              <View>
+                <TextInput
+                  keyboardType="email-address"
+                  style={[
+                    styles.input,
+                    inputEmailInFocus && styles.inputActive,
+                  ]}
+                  placeholder="Адреса електронної пошти"
+                  value={mail}
+                  onFocus={onFocusEmail}
+                  onBlur={() => setInputEmailInFocus(false)}
+                  onChangeText={setMail}
+                />
+              </View>
+              <View style={styles.label}>
+                <TextInput
+                  style={[
+                    styles.input,
+                    inputPasswordInFocus && styles.inputActive,
+                  ]}
+                  placeholder="Пароль"
+                  secureTextEntry={showPassword}
+                  value={password}
+                  onChangeText={setPassword}
+                  onFocus={onFocusPassword}
+                  onBlur={() => setInputPasswordInFocus(false)}
+                />
+                <TouchableOpacity
+                  style={styles.containerShowPassword}
+                  onPress={() => setShowPassword((prev) => !prev)}
+                >
+                  <Text style={styles.textShowPassword}>Показати</Text>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={handlerSubmit}
+                style={{
+                  ...styles.buttonSubmit,
+                  marginTop: isShowKeyboard ? 0 : 43,
+                }}
+              >
+                <Text style={styles.textBtnSubmit}>Зареєстуватися</Text>
+              </TouchableOpacity>
+            </View>
+            {!isShowKeyboard && (
+              <Text style={styles.textLink}>Вже є акаунт? Увійти</Text>
+            )}
           </View>
-          <TouchableOpacity
-            activeOpacity={0.7}
-            onPress={() => console.log("test")}
-            style={styles.buttonSubmit}
-          >
-            <Text style={styles.textBtnSubmit}>Зареєстуватися</Text>
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.textLink}>Вже є акаунт? Увійти</Text>
-      </View>
-    </ImageBackground>
+        </KeyboardAvoidingView>
+        {/* </TouchableWithoutFeedback> */}
+      </ImageBackground>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -68,9 +155,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-end",
   },
+  activeKeyboard: {
+    width: "100%",
+  },
+  inputActive: {
+    borderWidth: 1,
+    borderColor: "#FF6C00",
+  },
   containerForm: {
     paddingTop: 92,
-    paddingBottom: 79,
     backgroundColor: "#fff",
     width: "100%",
     borderTopLeftRadius: 25,
@@ -92,7 +185,7 @@ const styles = StyleSheet.create({
     right: -12.5,
     width: 25,
     height: 25,
-    borderRadius: "50%",
+    borderRadius: 50,
     borderWidth: 1,
     borderColor: "#FF6C00",
     justifyContent: "center",
@@ -112,7 +205,6 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingLeft: 16,
     paddingRight: 16,
-    marginBottom: 16,
   },
   input: {
     width: "100%",
@@ -129,7 +221,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     height: 50,
     backgroundColor: "#FF6C00",
-    marginTop: 43,
   },
   textBtnSubmit: {
     paddingTop: 16,
