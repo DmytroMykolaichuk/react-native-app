@@ -12,6 +12,9 @@ import {
 } from "react-native";
 import background from "../images/background.jpg";
 
+const EMAIL_REGEXP =
+  /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+
 export function RegistrationScreen({ isShowKeyboard, setIsShowKeyboard }) {
   const [showPassword, setShowPassword] = useState(true);
   const [login, setLogin] = useState("");
@@ -24,6 +27,9 @@ export function RegistrationScreen({ isShowKeyboard, setIsShowKeyboard }) {
   function handlerSubmit() {
     if (login.trim() === "" || mail.trim() === "" || password.trim() === "") {
       return console.log("Заповніть всі поля");
+    }
+    if (!EMAIL_REGEXP.test(mail)) {
+      return console.log("Введіть коректний email");
     }
     console.log(`Login: ${login}, Mail: ${mail}, Password: ${password}`);
     setPassword("");

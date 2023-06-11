@@ -27,7 +27,7 @@ export default function App() {
     <TouchableWithoutFeedback onPress={isHideKeyboard}>
       <View style={styles.container}>
         {fontsLoaded && (
-          <LoginScreen
+          <RegistrationScreen
             setIsShowKeyboard={setIsShowKeyboard}
             isShowKeyboard={isShowKeyboard}
           />

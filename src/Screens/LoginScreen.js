@@ -12,22 +12,33 @@ import {
 } from "react-native";
 import background from "../images/background.jpg";
 
+const EMAIL_REGEXP =
+  /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+
 export function LoginScreen({ isShowKeyboard, setIsShowKeyboard }) {
   const [showPassword, setShowPassword] = useState(true);
   const [password, setPassword] = useState("");
   const [mail, setMail] = useState("");
   const [inputEmailInFocus, setInputEmailInFocus] = useState(false);
   const [inputPasswordInFocus, setInputPasswordInFocus] = useState(false);
+  const [invalidEmail, setInvalidEmail] = useState(false);
 
   function handlerSubmit() {
     if (mail.trim() === "" || password.trim() === "") {
       return console.log("Заповніть всі поля");
+    }
+    if (!EMAIL_REGEXP.test(mail)) {
+      setInvalidEmail(true);
+      return console.log("Введіть коректний email");
     }
     console.log(`Mail: ${mail}, Password: ${password}`);
     setPassword("");
     setMail("");
     Keyboard.dismiss();
     setIsShowKeyboard(false);
+    if (invalidEmail) {
+      setInvalidEmail(false);
+    }
   }
 
   function onFocusEmail() {
@@ -57,7 +68,11 @@ export function LoginScreen({ isShowKeyboard, setIsShowKeyboard }) {
             <View>
               <TextInput
                 keyboardType="email-address"
-                style={[styles.input, inputEmailInFocus && styles.inputActive]}
+                style={[
+                  styles.input,
+                  inputEmailInFocus && styles.inputActive,
+                  { color: invalidEmail ? "red" : null },
+                ]}
                 placeholder="Адреса електронної пошти"
                 value={mail}
                 onFocus={onFocusEmail}
