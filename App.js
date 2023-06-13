@@ -1,18 +1,15 @@
 import "react-native-gesture-handler";
 import { useFonts } from "expo-font";
-import { RegistrationScreen } from "./src/Screens/AuthScreen/RegistrationScreen";
-import { LoginScreen } from "./src/Screens/AuthScreen/LoginScreen";
-// import { PostsScreen } from "./src/Screens/mainScreen/PostsScreen";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";
-
+import { createStackNavigator } from "@react-navigation/stack";
+import { RegistrationScreen } from "./src/Screens/AuthScreen/RegistrationScreen";
+import { LoginScreen } from "./src/Screens/AuthScreen/LoginScreen";
+import { Home } from "./src/Screens/mainScreen/Home";
 // SplashScreen.preventAutoHideAsync();
 const roboto = "Roboto";
-
 const AuthStack = createStackNavigator();
-
 export default function App() {
   const [fontsLoaded] = useFonts({
     [roboto]: require("./src/font/Roboto-Medium.ttf"),
@@ -30,7 +27,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <AuthStack.Navigator>
+      <AuthStack.Navigator initialRouteName="Login">
         <AuthStack.Screen
           name="Registration"
           component={RegistrationScreen}
@@ -39,6 +36,11 @@ export default function App() {
         <AuthStack.Screen
           name="Login"
           component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <AuthStack.Screen
+          name="Home"
+          component={Home}
           options={{ headerShown: false }}
         />
       </AuthStack.Navigator>

@@ -46,6 +46,7 @@ export function LoginScreen({ navigation }) {
     if (invalidEmail) {
       setInvalidEmail(false);
     }
+    navigation.navigate("Home");
   }
 
   function onFocusEmail() {

@@ -44,6 +44,7 @@ export function RegistrationScreen({ navigation }) {
     setLogin("");
     setMail("");
     isHideKeyboard();
+    navigation.navigate("Home");
   }
 
   function onFocusEmail() {
