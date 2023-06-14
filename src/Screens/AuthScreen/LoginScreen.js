@@ -87,7 +87,10 @@ export function LoginScreen({ navigation }) {
                     placeholder="Адреса електронної пошти"
                     value={mail}
                     onFocus={onFocusEmail}
-                    onBlur={() => setInputEmailInFocus(false)}
+                    onBlur={() => {
+                      setIsShowKeyboard(false);
+                      setInputEmailInFocus(false);
+                    }}
                     onChangeText={setMail}
                   />
                 </View>
@@ -102,7 +105,10 @@ export function LoginScreen({ navigation }) {
                     value={password}
                     onChangeText={setPassword}
                     onFocus={onFocusPassword}
-                    onBlur={() => setInputPasswordInFocus(false)}
+                    onBlur={() => {
+                      setInputPasswordInFocus(false);
+                      setIsShowKeyboard(false);
+                    }}
                   />
                   <TouchableOpacity
                     style={styles.containerShowPassword}

@@ -97,7 +97,10 @@ export function RegistrationScreen({ navigation }) {
                     placeholder="Логін"
                     value={login}
                     onFocus={onFocusLogin}
-                    onBlur={() => setInputLoginInFocus(false)}
+                    onBlur={() => {
+                      setIsShowKeyboard(false);
+                      setInputLoginInFocus(false);
+                    }}
                     onChangeText={setLogin}
                     style={[
                       styles.input,
@@ -115,7 +118,10 @@ export function RegistrationScreen({ navigation }) {
                     placeholder="Адреса електронної пошти"
                     value={mail}
                     onFocus={onFocusEmail}
-                    onBlur={() => setInputEmailInFocus(false)}
+                    onBlur={() => {
+                      setIsShowKeyboard(false);
+                      setInputEmailInFocus(false);
+                    }}
                     onChangeText={setMail}
                   />
                 </View>
@@ -130,7 +136,10 @@ export function RegistrationScreen({ navigation }) {
                     value={password}
                     onChangeText={setPassword}
                     onFocus={onFocusPassword}
-                    onBlur={() => setInputPasswordInFocus(false)}
+                    onBlur={() => {
+                      setIsShowKeyboard(false);
+                      setInputPasswordInFocus(false);
+                    }}
                   />
                   <TouchableOpacity
                     style={styles.containerShowPassword}

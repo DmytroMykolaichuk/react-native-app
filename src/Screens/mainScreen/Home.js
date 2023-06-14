@@ -51,7 +51,7 @@ export function Home({ navigation }) {
         }}
       />
       <Tab.Screen
-        name="CreatePostsScreen"
+        name="Створити публікацію"
         component={CreatePostsScreen}
         options={{
           tabBarIcon: ({ focused }) => (
