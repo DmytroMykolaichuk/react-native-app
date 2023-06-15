@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import * as Location from "expo-location";
 import {
   View,
   Text,
@@ -20,13 +21,24 @@ import {
 } from "@expo/vector-icons";
 import * as MediaLibrary from "expo-media-library";
 
-export function CreatePostsScreen() {
+export function CreatePostsScreen({ navigation }) {
   const [type, setType] = useState(CameraType.back);
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [name, setName] = useState(null);
-  const [location, setLocation] = useState(null);
+  const [locationName, setLocationName] = useState(null);
+  const [locationPhoto, setLocationPhoto] = useState(null);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  useEffect(() => {
+    (async () => {
+      let location = await Location.getCurrentPositionAsync({});
+      const coords = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+      setLocationPhoto(coords);
+    })();
+  }, []);
 
   function isHideKeyboard() {
     Keyboard.dismiss();
@@ -43,6 +55,27 @@ export function CreatePostsScreen() {
     const photo = await camera.takePictureAsync();
     setPhoto(photo.uri);
   };
+
+  async function sendPost() {
+    // const location = await Location.getCurrentPositionAsync({});
+    // const coords = {
+    // latitude: location.coords.latitude,
+    // longitude: location.coords.longitude,
+    // };
+
+    // setLocationPhoto(coords);
+
+    navigation.navigate("PostsScreen", {
+      photo,
+      locationName,
+      name,
+      locationPhoto,
+    });
+    setPhoto(null);
+    setName(null);
+    setLocationName(null);
+    // setCamera(null);
+  }
 
   return (
     <TouchableWithoutFeedback onPress={isHideKeyboard}>
@@ -103,8 +136,8 @@ export function CreatePostsScreen() {
               <TextInput
                 style={{ ...styles.input, paddingLeft: 28 }}
                 placeholder="Місцевість..."
-                value={location}
-                onChangeText={setLocation}
+                value={locationName}
+                onChangeText={setLocationName}
                 onFocus={() => setIsShowKeyboard(true)}
                 onBlur={() => setIsShowKeyboard(false)}
               />
@@ -119,15 +152,17 @@ export function CreatePostsScreen() {
           <TouchableOpacity
             style={[
               styles.publishBtn,
-              !name || !photo || !location ? styles.disPublishBtn : null,
+              !name || !photo || !locationName ? styles.disPublishBtn : null,
             ]}
-            disabled={!name && !photo && !location}
-            onPress={() => console.log("test")}
+            disabled={!name && !photo && !locationName}
+            onPress={sendPost}
           >
             <Text
               style={[
                 styles.textPublishBtn,
-                !name || !photo || !location ? styles.disTextPublishBtn : null,
+                !name || !photo || !locationName
+                  ? styles.disTextPublishBtn
+                  : null,
               ]}
             >
               Опублікувати
