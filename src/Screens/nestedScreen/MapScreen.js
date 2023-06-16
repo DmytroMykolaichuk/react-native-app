@@ -3,14 +3,14 @@ import { View, StyleSheet, Dimensions } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
 export function MapScreen({ route }) {
-  console.log(route);
+  const { latitude, longitude } = route.params.location;
   return (
     <View style={styles.container}>
       <MapView
         style={styles.mapStyle}
         region={{
-          latitude: 31.776685,
-          longitude: 35.234491,
+          latitude,
+          longitude,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
@@ -22,8 +22,8 @@ export function MapScreen({ route }) {
         <Marker
           title="I am here"
           coordinate={{
-            latitude: 31.776685,
-            longitude: 35.234491,
+            latitude,
+            longitude,
           }}
           description="Hello"
         />

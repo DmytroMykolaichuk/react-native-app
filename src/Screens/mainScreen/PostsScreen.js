@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import MapView from "react-native-maps";
 import {
   View,
   Text,
@@ -18,7 +17,6 @@ export function PostsScreen({ route, navigation }) {
     if (route.params) {
       setPosts((prev) => [...prev, route.params]);
     }
-    console.log(route.params);
   }, [route.params]);
   return (
     <View style={styles.container}>
@@ -49,13 +47,11 @@ export function PostsScreen({ route, navigation }) {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.locationBtn}
-                onPress={() => {
-                  console.log(item.locationPhoto);
-                  console.log(item.name);
+                onPress={() =>
                   navigation.navigate("MapScreen", {
                     location: item.locationPhoto,
-                  });
-                }}
+                  })
+                }
               >
                 <MaterialCommunityIcons
                   name="map-marker-outline"

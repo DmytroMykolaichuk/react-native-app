@@ -56,6 +56,7 @@ export function Home({ navigation }) {
               <Ionicons name="add-sharp" size={24} color="#FFF" />
             </View>
           ),
+          tabBarStyle: { display: "none" },
         }}
       />
       <Tab.Screen

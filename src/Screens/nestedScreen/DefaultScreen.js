@@ -32,13 +32,14 @@ export function DefaultScreen({ navigation }) {
       <PostStack.Screen
         name="MapScreen"
         component={MapScreen}
-        // options={{ headerShown: false }}
+        options={{ title: "Карта" }}
       />
       <PostStack.Screen
         name="CommentsScreen"
-        options={{ title: "Коментарі" }}
+        options={{
+          title: "Коментарі",
+        }}
         component={CommentsScreen}
-        // options={{ headerShown: false }}
       />
     </PostStack.Navigator>
   );

@@ -18,6 +18,7 @@ import {
   Ionicons,
   Feather,
   MaterialCommunityIcons,
+  AntDesign,
 } from "@expo/vector-icons";
 import * as MediaLibrary from "expo-media-library";
 
@@ -29,16 +30,6 @@ export function CreatePostsScreen({ navigation }) {
   const [locationName, setLocationName] = useState(null);
   const [locationPhoto, setLocationPhoto] = useState(null);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-  useEffect(() => {
-    (async () => {
-      let location = await Location.getCurrentPositionAsync({});
-      const coords = {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      };
-      setLocationPhoto(coords);
-    })();
-  }, []);
 
   function isHideKeyboard() {
     Keyboard.dismiss();
@@ -57,13 +48,13 @@ export function CreatePostsScreen({ navigation }) {
   };
 
   async function sendPost() {
-    // const location = await Location.getCurrentPositionAsync({});
-    // const coords = {
-    // latitude: location.coords.latitude,
-    // longitude: location.coords.longitude,
-    // };
+    const location = await Location.getCurrentPositionAsync({});
+    const coords = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+    };
 
-    // setLocationPhoto(coords);
+    setLocationPhoto(coords);
 
     navigation.navigate("PostsScreen", {
       photo,
@@ -74,7 +65,12 @@ export function CreatePostsScreen({ navigation }) {
     setPhoto(null);
     setName(null);
     setLocationName(null);
-    // setCamera(null);
+  }
+
+  function isClearPost() {
+    setPhoto(null);
+    setName(null);
+    setLocationName(null);
   }
 
   return (
@@ -168,6 +164,13 @@ export function CreatePostsScreen({ navigation }) {
               Опублікувати
             </Text>
           </TouchableOpacity>
+          {!isShowKeyboard && (
+            <View style={styles.containerDeleteBtn}>
+              <TouchableOpacity style={styles.deleteBtn} onPress={isClearPost}>
+                <AntDesign name="delete" size={24} color="#BDBDBD" />
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
@@ -268,37 +271,18 @@ const styles = StyleSheet.create({
   disTextPublishBtn: {
     color: "#BDBDBD",
   },
+  containerDeleteBtn: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 180,
+  },
+  deleteBtn: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 70,
+    height: 40,
+    backgroundColor: "#F6F6F6",
+    borderRadius: 20,
+  },
 });
-
-// const [hasPermission, setHasPermission] = Camera.useCameraPermissions();
-// const [cameraRef, setCameraRef] = useState(null);
-// const [type, setType] = useState(CameraType.back);
-// const [photo, setPhoto] = useState(null);
-
-// // useEffect(() => {
-// //   (async () => {
-// //     const { status } = await Camera.requestPermissionsAsync();
-// //     await MediaLibrary.requestPermissionsAsync();
-
-// //     setHasPermission(status === "granted");
-// //   })();
-// // }, []);
-
-// if (hasPermission === null) {
-//   return <View />;
-// }
-// if (hasPermission === false) {
-//   return (
-//     <View style={styles.container}>
-//       <Text style={{ textAlign: "center" }}>
-//         We need your permission to show the camera
-//       </Text>
-//       <Button onPress={requestPermission} title="grant permission" />
-//     </View>
-//   );
-// }
-// function toggleCameraType() {
-//   setType((current) =>
-//     current === CameraType.back ? CameraType.front : CameraType.back
-//   );
-// }

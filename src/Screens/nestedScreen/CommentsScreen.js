@@ -6,24 +6,49 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Platform,
+  Keyboard,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 export function CommentsScreen({ route }) {
   const [text, setText] = useState(null);
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+
+  function isHideKeyboard() {
+    Keyboard.dismiss();
+    setIsShowKeyboard(false);
+  }
+
   return (
-    <View style={styles.container}>
-      <View>
-        <Image source={{ uri: route.params.photo }} style={styles.photo} />
+    <TouchableWithoutFeedback onPress={isHideKeyboard}>
+      <View style={styles.container}>
+        <View>
+          <Image source={{ uri: route.params.photo }} style={styles.photo} />
+        </View>
+
+        <View></View>
+
+        <KeyboardAvoidingView
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+          style={styles.activeKeyboard}
+        >
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Коментувати..."
+              style={styles.input}
+              value={text}
+              onPress={setText}
+            />
+            <TouchableOpacity style={styles.inputBtn}>
+              <AntDesign name="arrowup" size={24} color="#FFF" />
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
       </View>
-      <View></View>
-      <View style={styles.inputContainer}>
-        <TextInput placeholder="Коментувати..." style={styles.input} />
-        <TouchableOpacity style={styles.inputBtn}>
-          <AntDesign name="arrowup" size={24} color="#FFF" />
-        </TouchableOpacity>
-      </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 const styles = StyleSheet.create({
@@ -33,6 +58,9 @@ const styles = StyleSheet.create({
     paddingBottom: 16,
     paddingHorizontal: 16,
     justifyContent: "space-between",
+  },
+  activeKeyboard: {
+    width: "100%",
   },
   photo: {
     height: 240,
