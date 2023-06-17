@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { Ionicons, Octicons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import { PostsScreen } from "../mainScreen/PostsScreen";
 import { MapScreen } from "./MapScreen";
@@ -37,6 +37,7 @@ export function DefaultScreen({ navigation }) {
       <PostStack.Screen
         name="CommentsScreen"
         options={{
+          // tabBarVisible: false,
           title: "Коментарі",
         }}
         component={CommentsScreen}

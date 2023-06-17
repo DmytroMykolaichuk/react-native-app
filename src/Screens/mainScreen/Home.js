@@ -29,6 +29,7 @@ export function Home({ navigation }) {
         name="DefaultScreen"
         component={DefaultScreen}
         options={{
+          // tabBarVisible: false,
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name="ios-grid-outline"
@@ -70,7 +71,7 @@ export function Home({ navigation }) {
               color={focused ? "#FF6C00" : "rgba(33, 33, 33, 0.8)"}
             />
           ),
-          // headerShown: false,
+          headerShown: false,
         }}
       />
     </Tab.Navigator>

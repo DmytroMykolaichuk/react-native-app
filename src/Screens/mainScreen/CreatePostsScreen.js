@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import * as Location from "expo-location";
 import {
   View,
@@ -30,6 +30,25 @@ export function CreatePostsScreen({ navigation }) {
   const [locationName, setLocationName] = useState(null);
   const [locationPhoto, setLocationPhoto] = useState(null);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        return console.log("Permission to access location was denied");
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      await MediaLibrary.requestPermissionsAsync();
+      if (status !== "granted") {
+        return console.log("Permission to access camera was denied");
+      }
+    })();
+  }, []);
 
   function isHideKeyboard() {
     Keyboard.dismiss();
