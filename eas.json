@@ -1,6 +1,6 @@
 {
   "cli": {
-    "version": ">= 0.50.0"
+    "version": ">= 3.13.2"
   },
   "build": {
     "development": {
@@ -12,7 +12,7 @@
         "buildType": "apk"
       },
       "ios": {
-        "simulator": true
+        "simulator": "true"
       },
       "distribution": "internal"
     },

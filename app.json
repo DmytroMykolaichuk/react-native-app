@@ -1,36 +1,70 @@
 {
   "expo": {
-    "name": "react-native-app",
-    "slug": "react-native-app",
+    "name": "TheArt-of-Travell",
+    "slug": "TheArt-of-Travell",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "plugins": [
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow APP to access your photos.",
+          "savePhotosPermission": "Allow APP to save photos.",
+          "isAccessMediaLocationEnabled": true
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow the APP to access your camera."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow APP to use your location."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "jsEngine": "jsc",
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow the APP to access your camera.",
+        "NSLocationWhenInUseUsageDescription": "Allow the APP to use your location."
+      }
     },
     "android": {
+      "jsEngine": "jsc",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.dmytro94.reactnativeapp"
+      "package": "com.irinavn.TheArtofTravell",
+      "permissions": ["CAMERA", "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "53224f48-7895-4d1b-b996-b88d01c668de"
+        "projectId": "1ebee26c-276b-4619-b166-86279e92cf24"
       }
-    }
+    },
+    "jsEngine": "hermes"
   }
 }
